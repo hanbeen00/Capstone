@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ////////////////////////////카메라 권한//////////////////////////// -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- /////////////////////////////////////////////////////////////////////// -->
+
+    <!-- ////////////////////////////저장소 권한//////////////////////////// -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-feature android:name="android.hardware.camera2"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <!-- /////////////////////////////////////////////////////////////////////// -->
+
+    <!-- ////////////////////////////GPS 권한//////////////////////////// -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <!-- /////////////////////////////////////////////////////////////////////// -->
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_braille2"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_braille2_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Capstone"
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true">
+        <!-- //////////////HTTPS가 아닌 HTTP 트래픽 사용 가능/////////////////// -->
+
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+
+        <!-- ////////////////////////////툴바 뒤로가기//////////////////////////// -->
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            >
+        </activity>
+        <activity
+            android:name=".MainActivity3"
+            android:exported="true"
+            android:parentActivityName=".MainActivity2"
+            >
+        </activity>
+        <activity
+            android:name=".MainActivity4"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            >
+        </activity>
+        <!-- /////////////////////////////////////////////////////////////////////// -->
+
+
+    </application>
+
+</manifest>
