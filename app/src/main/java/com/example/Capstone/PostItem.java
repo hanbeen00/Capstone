@@ -6,6 +6,7 @@ public class PostItem {
 
 
     private Integer id;
+    private String name;
     private String address;
     private String text;
     private String time;
@@ -18,6 +19,9 @@ public class PostItem {
 
     public Integer getId() {
         return id;
+    }
+    public String getName() {
+        return name;
     }
     public String getText() {
         return text;
@@ -42,6 +46,9 @@ public class PostItem {
 
     public void setAddress(String s){
         address = s;
+    }
+    public void setName(String s){
+        name = s;
     }
     public void setText(String s){
         text = s;

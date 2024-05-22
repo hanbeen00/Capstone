@@ -23,6 +23,7 @@ public interface MyAPI {
     Call<List<PostItem>> post_posts(
             @Part MultipartBody.Part image,
 
+            @Part("name") RequestBody name,
             @Part("address") RequestBody address,
             @Part("text") RequestBody text,
             @Part("report") RequestBody report,

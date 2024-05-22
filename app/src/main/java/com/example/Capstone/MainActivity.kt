@@ -1,10 +1,15 @@
 package com.example.Capstone
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +22,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var editText: EditText
+    private var toast: Toast? = null
 
     private val TAG = javaClass.simpleName
     private lateinit var mMyAPI: MyAPI
@@ -42,9 +50,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mActionBarToolbar)
         ////////////////////////////////////////////////////
 
+        editText = findViewById<EditText>(R.id.editText)
+
+
     }
     override fun onResume() {
         super.onResume()
+        editText.setText(loadName())
         // onResume에서 deletePosts 호출
         deletePosts()
     }
@@ -112,21 +124,81 @@ class MainActivity : AppCompatActivity() {
 
     ////////////////////점자 검사 클릭////////////////////
     fun onButtonClick1(v: View?) {
-        val intent = Intent(
-            applicationContext,
-            MainActivity2::class.java
-        )
-        startActivity(intent)
+        if(loadName().toString().isNotEmpty()){
+            val intent = Intent(
+                applicationContext,
+                MainActivity2::class.java
+            )
+            startActivity(intent)
+        }
+        else{
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(applicationContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT)
+            toast!!.show()
+        }
     }
     ////////////////////////////////////////////////////
 
     ////////////////////신고 현황 클릭////////////////////
     fun onButtonClick2(v: View?) {
-        val intent = Intent(
-            applicationContext,
-            MainActivity4::class.java
-        )
-        startActivity(intent)
+        if(loadName().toString().isNotEmpty()){
+            val intent = Intent(
+                applicationContext,
+                MainActivity4::class.java
+            )
+            startActivity(intent)
+        }
+        else{
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(applicationContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT)
+            toast!!.show()
+        }
+    }
+    ////////////////////////////////////////////////////
+
+    // 이름 제출 클릭
+    fun onButtonClick3(v: View?) {
+        saveName()
+    }
+
+
+    // 이름 저장
+    private fun saveName() {
+        if(editText.text.toString().isNotEmpty()){
+            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("savedName", editText.text.toString())
+            editor.apply()
+            Log.d(TAG, "닉네임이 저장되었습니다: ${editText.text}")
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(applicationContext, "닉네임이 저장되었습니다", Toast.LENGTH_SHORT)
+            toast!!.show()
+        }
+        else{
+            val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("savedName", editText.text.toString())
+            editor.apply()
+            Log.d(TAG, "닉네임이 비어 있어 저장되지 않았습니다.")
+            if (toast != null) {
+                toast!!.cancel()
+            }
+            toast = Toast.makeText(applicationContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT)
+            toast!!.show()
+        }
+    }
+
+    // 저장된 이름 불러오기
+    private fun loadName(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedName = sharedPreferences.getString("savedName", "")
+        return savedName
     }
     ////////////////////////////////////////////////////
 }

@@ -135,6 +135,13 @@ class MainActivity3 : AppCompatActivity() {
     }
     ///////////////////////////////////////////////////////////////////////////////
 
+    private fun loadName(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedName = sharedPreferences.getString("savedName", "")
+        Log.d(TAG, "저장된 이름을 불러왔습니다: $savedName")
+        return savedName
+    }
+
     //////////////////// 신고 접수 클릭 ////////////////////
     @SuppressLint("SimpleDateFormat")
     fun onButtonClick1(v: View?) {
@@ -148,6 +155,7 @@ class MainActivity3 : AppCompatActivity() {
 
             Log.d(TAG, "PATCH")
             val item = PostItem()   // 새로운 PostItem 객체 생성
+            item.name = loadName().toString()
             item.address = textView.text.toString().trim()  // 새로운 PostItem 객체의 address 속성을 설정
             item.text = editText.text.toString().trim()   // PostItem 객체의 text 속성을 설정
             item.report = "처리전"

@@ -359,7 +359,7 @@ class MainActivity2 : AppCompatActivity() {
                     ////////////////////////////////////////////////////////////
 
                     Log.d(TAG, "POST")
-                    uploadBytesToServer(BYTE_CODE!!, "","", "","사진 결과","")
+                    uploadBytesToServer(BYTE_CODE!!, "","", "","","사진 결과","")
                 }
 
                 STORAGE_CODE -> {
@@ -373,7 +373,7 @@ class MainActivity2 : AppCompatActivity() {
                     ////////////////////////////////////////////////////////////
 
                     Log.d(TAG, "POST")
-                    uploadBytesToServer(BYTE_CODE!!, "","", "","사진 결과","")
+                    uploadBytesToServer(BYTE_CODE!!,"","", "","","사진 결과","")
                 }
             }
         }
@@ -400,12 +400,14 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     ///////// 서버에 통합내용(이미지, 위치, 텍스트) 전송 ///////////
-    private fun uploadBytesToServer(bytes: ByteArray, address: String, text: String, report:String, result:String, information:String) {
+    private fun uploadBytesToServer(bytes: ByteArray, name: String, address: String, text: String, report:String, result:String, information:String) {
         val requestBody = bytes.toRequestBody("image/*".toMediaTypeOrNull())
         // 바이트 배열을 RequestBody로 변환하여 이미지를 나타내는 요청 본문 생성
 
         val imagePart = MultipartBody.Part.createFormData("image", "image.jpg", requestBody)
         // 이미지를 나타내는 MultipartBody.Part 객체 생성
+
+        val namePart = name.toRequestBody("name/plain".toMediaTypeOrNull())
 
         val addressPart = address.toRequestBody("text/plain".toMediaTypeOrNull())
         // 주소를 나타내는 요청 본문 생성
@@ -417,7 +419,7 @@ class MainActivity2 : AppCompatActivity() {
         val resultPart = result.toRequestBody("text/plain".toMediaTypeOrNull())
         val informationPart = information.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        val call = mMyAPI.post_posts(imagePart, addressPart, textPart, reportPart, resultPart, informationPart)
+        val call = mMyAPI.post_posts(imagePart, namePart, addressPart, textPart, reportPart, resultPart, informationPart)
         // post_posts 메서드를 호출하여 이미지와 주소, 텍스트를 서버에 업로드하는 Retrofit Call 객체 생성
 
         call.enqueue(object : Callback<List<PostItem>> {

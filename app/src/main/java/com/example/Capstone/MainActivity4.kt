@@ -1,5 +1,6 @@
 package com.example.Capstone
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -75,7 +76,7 @@ class MainActivity4 : AppCompatActivity() {
                     var listnum = 0
 
                     mList?.forEach { item ->
-                        if (item.report != "") { // item.report가 null이 아닌 경우에만 실행
+                        if (item.report!= "" && item.time != "" && item.name == loadName().toString()) { // item.report, time이 null이 아닌 경우에만 실행
                             listnum++;
                             adapter.addItem(ListItem(listnum.toString(), item.address, item.report, item.text, item.time))
                             // 어댑터에 각 항목 추가
@@ -84,6 +85,8 @@ class MainActivity4 : AppCompatActivity() {
 
                     listView.adapter = adapter // 리스트뷰에 어댑터 설정
                     adapter.notifyDataSetChanged() // 데이터 변경을 알림
+
+
                 } else {
                     Log.d(TAG, "Status Code : ${response.code()}")
                 }
@@ -92,6 +95,11 @@ class MainActivity4 : AppCompatActivity() {
             override fun onFailure(call: Call<List<PostItem>>, t: Throwable) {
                 // 요청 실패 시 처리
                 Log.d(TAG, "Error: ${t.message}")
+                if (toast != null) {
+                    toast!!.cancel()
+                }
+                toast = Toast.makeText(applicationContext, "인터넷 연결을 확인하세요.", Toast.LENGTH_SHORT)
+                toast!!.show()
             }
         })
     }
@@ -182,7 +190,7 @@ class MainActivity4 : AppCompatActivity() {
                     var listnum = 0
 
                     mList?.forEach { item ->
-                        if (item.report!= "" && item.time != "") { // item.report, time이 null이 아닌 경우에만 실행
+                        if (item.report!= "" && item.time != "" && item.name == loadName().toString()) { // item.report, time이 null이 아닌 경우에만 실행
                             listnum++;
                             adapter.addItem(ListItem(listnum.toString(), item.address, item.report, item.text, item.time))
                             // 어댑터에 각 항목 추가
@@ -197,7 +205,7 @@ class MainActivity4 : AppCompatActivity() {
                     if (toast != null) {
                         toast!!.cancel()
                     }
-                    toast = Toast.makeText(applicationContext, "업데이트 했습니다", Toast.LENGTH_SHORT)
+                    toast = Toast.makeText(applicationContext, "새로고침 완료", Toast.LENGTH_SHORT)
                     toast!!.show()
 
 
@@ -216,6 +224,13 @@ class MainActivity4 : AppCompatActivity() {
                 toast!!.show()
             }
         })
+    }
+
+    // 저장된 이름 불러오기
+    private fun loadName(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val savedName = sharedPreferences.getString("savedName", "")
+        return savedName
     }
 
 
