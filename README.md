@@ -1,4 +1,4 @@
-JUST DOT IT (시각 장애인을 위한 점자 오류 신고 플랫폼) - 어플(android)
+JUST DOT IT (시각 장애인을 위한 점자 오류 신고 플랫폼) - 앱(android)
 -------
 4학년 1학기 캡스톤 디자인
 - Kotlin/JAVA(앱), HTML/CSS(웹), Django(서버), YOLOv8(인공지능)
